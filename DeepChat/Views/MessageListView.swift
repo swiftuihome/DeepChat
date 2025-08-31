@@ -13,7 +13,7 @@ struct MessageListView: View {
     var body: some View {
         ScrollViewReader { proxy in
             List {
-                ForEach(messages.filter { $0.role != "system" }) { message in
+                ForEach(messages.filter { $0.role != .system }) { message in
                     MessageBubble(message: message)
                         .listRowSeparator(.hidden)
                         .listRowInsets(EdgeInsets())
@@ -27,7 +27,7 @@ struct MessageListView: View {
     }
     
     private func scrollToBottom(proxy: ScrollViewProxy) {
-        if let lastMessage = messages.filter({ $0.role != "system" }).last {
+        if let lastMessage = messages.filter({ $0.role != .system }).last {
             withAnimation {
                 proxy.scrollTo(lastMessage.id, anchor: .bottom)
             }

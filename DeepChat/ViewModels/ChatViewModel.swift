@@ -18,19 +18,19 @@ class ChatViewModel {
     
     init() {
         // 添加系统消息
-        messages.append(ChatMessage(role: "system", content: "You are a helpful assistant."))
+        messages.append(ChatMessage(role: .system, content: "You are a helpful assistant."))
     }
     
     func sendMessage() async {
         guard !currentInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
         
-        let userMessage = ChatMessage(role: "user", content: currentInput)
+        let userMessage = ChatMessage(role: .user, content: currentInput)
         messages.append(userMessage)
         
-        let tempMessage = ChatMessage(role: "assistant", content: "")
+        let tempMessage = ChatMessage(role: .assistant, content: "")
         messages.append(tempMessage)
         
-        let currentMessageIndex = messages.count - 1
+        let currentIndex = messages.count - 1
         currentInput = ""
         isSending = true
         errorMessage = nil
@@ -40,7 +40,7 @@ class ChatViewModel {
             
             for try await chunk in stream {
                 await MainActor.run {
-                    messages[currentMessageIndex].content += chunk
+                    messages[currentIndex].content += chunk
                 }
             }
         } catch {
@@ -56,7 +56,7 @@ class ChatViewModel {
     }
     
     func clearConversation() {
-        messages = [ChatMessage(role: "system", content: "You are a helpful assistant.")]
+        messages = [ChatMessage(role: .system, content: "You are a helpful assistant.")]
         errorMessage = nil
     }
 }

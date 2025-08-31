@@ -12,16 +12,16 @@ struct MessageBubble: View {
     
     var body: some View {
         HStack {
-            if message.role == "user" {
+            if message.role == .user {
                 Spacer()
             }
             
-            VStack(alignment: message.role == "user" ? .trailing : .leading, spacing: 4) {
+            VStack(alignment: message.role.alignment, spacing: 4) {
                 Text(message.content)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
-                    .background(message.role == "user" ? Color.blue : Color.gray.opacity(0.2))
-                    .foregroundColor(message.role == "user" ? .white : .primary)
+                    .background(message.role.background)
+                    .foregroundColor(message.role.foreground)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                 
                 Text(message.timestamp, style: .time)
@@ -29,7 +29,7 @@ struct MessageBubble: View {
                     .foregroundColor(.secondary)
             }
             
-            if message.role == "assistant" {
+            if message.role == .assistant {
                 Spacer()
             }
         }

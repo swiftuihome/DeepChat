@@ -14,7 +14,7 @@ struct APIRequest: Codable {
     
     init(messages: [ChatMessage]) {
         self.model = "deepseek-chat"
-        self.messages = messages.map { ["role": $0.role, "content": $0.content] }
+        self.messages = messages.map { ["role": $0.role.rawValue, "content": $0.content] }
         self.stream = true
     }
 }
